@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Cracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header class="bg-dark text-light">
+        <h2 class="text-center">Password Cracker</h2>
+    </header>
+
+    <div class="container mt-4">
+        <!-- Single Server Approach Container -->
+        <div id="singleServerContainer">
+            <h2 class="mb-4">Single Server Approach</h2>
+            <form enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="actualHash">Actual Hash:</label>
+                    <input type="text" class="form-control" id="actualHash" autocomplete="off" />
+                </div>
+                <div class="form-group">
+                    <label for="passwordFile">Password File:</label>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="passwordFile">
+                    </div>
+                </div>
+                <button type="button" onclick="crackPasswords()" class="btn btn-primary">
+                    <i class="fa fa-lock" aria-hidden="true"></i>&nbsp; Crack Passwords
+                </button>
+            </form>
+            <div id="result-container" style="display: none;">
+                <div id="result"></div>
+            </div>
+        </div>
+
+        <!-- Distributed System Approach Container -->
+        <div id="distributedSystemContainer" class="mt-5">
+            <h2 class="mb-4">Distributed System Approach</h2>
+            <form enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="distributedHash">Distributed Hash:</label>
+                    <input type="text" class="form-control" id="distributedHash" autocomplete="off" />
+                </div>
+                <div class="form-group">
+                    <label for="distributedPasswordFile">Password File:</label>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="distributedPasswordFile">
+                    </div>
+                </div>
+                <button type="button" onclick="crackDistributedPasswords()" class="btn btn-success">
+                    <i class="fa fa-lock" aria-hidden="true"></i>&nbsp; Crack Distributed Passwords
+                </button>
+            </form>
+            <div id="distributed-container" style="display: none;">
+                <div id="server-running">Distributed server has been started!!!</div>
+                <div id="initRes"></div>
+            </div>
+            <div id="distributedResult" class="mt-4" style="display: none;">
+                <div id="distributedResultContainer"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="./script.js"></script>
+    <script src="./distributedScript.js"></script>
+</body>
+
+</html>

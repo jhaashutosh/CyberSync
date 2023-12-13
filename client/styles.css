@@ -1,0 +1,111 @@
+body {
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  padding: 1rem 0;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 20%;
+  align-items: baseline;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.custom-file-label::after {
+  content: "Browse";
+}
+
+#result {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin: 20px;
+  margin-left: 0px;
+  border-radius: 5px;
+  background-color: #f8f8f8;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#result p {
+  margin: 0;
+}
+
+#result span {
+  font-weight: bold;
+  color: #333;
+}
+
+#result .not-detected {
+  color: red;
+}
+
+#result .detected-algorithm {
+  color: green;
+}
+
+#result .password-found {
+  color: blue;
+}
+
+#distributedResult {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin: 20px;
+  margin-left: 0px;
+  border-radius: 5px;
+  background-color: #f8f8f8;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#distributedResult p {
+  margin: 0;
+}
+
+#distributedResult span {
+  font-weight: bold;
+  color: #333;
+}
+
+#distributedResult .not-detected {
+  color: red;
+}
+
+#distributedResult .detected-algorithm {
+  color: green;
+}
+
+#distributedResult .password-found {
+  color: blue;
+}
+
+/* Styles for the distributed-container */
+#distributed-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+#server-running {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+#initRes {
+  font-size: 16px;
+  color: #555;
+}
