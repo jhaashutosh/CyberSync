@@ -60,7 +60,7 @@
 
         async function requestTask() {
             try {
-                const response = await fetch("http://192.168.43.108:5001/assign-task", {
+                const response = await fetch("http://192.168.217.176:5001/assign-task", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -85,21 +85,20 @@
         }
 
         const hashFunction = (password, algorithm) => {
-            if (algorithm === "bcrypt") {
-                // Bcrypt is typically server-side, not recommended on the client side
-                console.warn("Bcrypt is not recommended on the client side.");
-                return null;
-            } else {
-                return CryptoJS.SHA256(password).toString(CryptoJS.enc.Hex);
+            switch (algorithm) {
+                case "sha256":
+                    return CryptoJS.SHA256(password).toString(CryptoJS.enc.Hex);
+                case "sha1":
+                    return CryptoJS.SHA1(password).toString(CryptoJS.enc.Hex);
+                case "md5":
+                    return CryptoJS.MD5(password).toString(CryptoJS.enc.Hex);
+                default:
+                    console.warn(`Unsupported algorithm: ${algorithm}`);
+                    return null;
             }
         };
 
-        const processPasswordChunk = async (
-            actualHash,
-            detectedAlgorithm,
-            passwordsChunk
-        ) => {
-
+        const processPasswordChunk = async (actualHash, detectedAlgorithm, passwordsChunk) => {
             let crackedPassword = null;
 
             const promises = passwordsChunk.map((password) => {
@@ -123,131 +122,10 @@
             return crackedResult;
         };
 
-
         async function processTask(task) {
-            // console.log("Processing task:", task);
-
-            // Ensure you are accessing the correct properties
             const actualHash = task.task.actualHash;
             const detectedAlgorithm = task.task.detectedAlgorithm;
-            const passwordChunks =
-                [
-                    [
-                        '123456', 'password',
-                        '12345678', 'qwerty',
-                        '123456789', '12345',
-                        '1234', '111111',
-                        '1234567', 'dragon',
-                        '123123', 'baseball',
-                        'abc123', 'football',
-                        'monkey', 'letmein',
-                        '696969', 'shadow',
-                        'master', '666666'
-                    ],
-                    [
-                        'qwertyuiop', '123321',
-                        'mustang', '1234567890',
-                        'michael', '654321',
-                        'pussy', 'superman',
-                        '1qaz2wsx', '7777777',
-                        'fuckyou', '121212',
-                        '000000', 'qazwsx',
-                        '123qwe', 'killer',
-                        'trustno1', 'jordan',
-                        'jennifer', 'zxcvbnm'
-                    ],
-                    [
-                        'asdfgh', 'hunter', 'buster',
-                        'soccer', 'harley', 'batman',
-                        'andrew', 'tigger', 'sunshine',
-                        'iloveyou', 'fuckme', '2000',
-                        'charlie', 'robert', 'thomas',
-                        'hockey', 'ranger', 'daniel',
-                        'starwars', 'klaster'
-                    ],
-                    [
-                        '112233', 'george', 'asshole',
-                        'computer', 'michelle', 'jessica',
-                        'pepper', '1111', 'zxcvbn',
-                        '555555', '11111111', '131313',
-                        'freedom', '777777', 'pass',
-                        'fuck', 'maggie', '159753',
-                        'aaaaaa', 'ginger'
-                    ],
-                    [
-                        'princess', 'joshua',
-                        'cheese', 'amanda',
-                        'summer', 'love',
-                        'ashley', '6969',
-                        'nicole', 'chelsea',
-                        'biteme', 'matthew',
-                        'access', 'yankees',
-                        '987654321', 'dallas',
-                        'austin', 'thunder',
-                        'taylor', 'matrix'
-                    ],
-                    [
-                        'william', 'corvette',
-                        'hello', 'martin',
-                        'heather', 'secret',
-                        'fucker', 'merlin',
-                        'diamond', '1234qwer',
-                        'gfhjkm', 'hammer',
-                        'silver', '222222',
-                        '88888888', 'anthony',
-                        'justin', 'test',
-                        'bailey', 'q1w2e3r4t5'
-                    ],
-                    [
-                        'patrick', 'internet', 'scooter',
-                        'orange', '11111', 'golfer',
-                        'cookie', 'richard', 'samantha',
-                        'bigdog', 'guitar', 'jackson',
-                        'whatever', 'mickey', 'chicken',
-                        'sparky', 'snoopy', 'maverick',
-                        'phoenix', 'camaro'
-                    ],
-                    [
-                        'sexy', 'peanut', 'morgan',
-                        'welcome', 'falcon', 'cowboy',
-                        'ferrari', 'samsung', 'andrea',
-                        'smokey', 'steelers', 'joseph',
-                        'mercedes', 'dakota', 'arsenal',
-                        'eagles', 'melissa', 'boomer',
-                        'booboo', 'spider'
-                    ],
-                    [
-                        'nascar', 'monster',
-                        'tigers', 'yellow',
-                        'xxxxxx', '123123123',
-                        'gateway', 'marina',
-                        'diablo', 'bulldog',
-                        'qwer1234', 'compaq',
-                        'purple', 'hardcore',
-                        'banana', 'junior',
-                        'hannah', '123654',
-                        'porsche', 'lakers'
-                    ],
-                    [
-                        'iceman', 'money', 'cowboys',
-                        '987654', 'london', 'tennis',
-                        '999999', 'ncc1701', 'coffee',
-                        'scooby', '0000', 'miller',
-                        'boston', 'q1w2e3r4', 'fuckoff',
-                        'brandon', 'yamaha', 'chester',
-                        'mother', 'forever'
-                    ],
-                    [
-                        'johnny', 'edward', '333333',
-                        'oliver', 'redsox', 'player',
-                        'nikita', 'knight', 'fender',
-                        'barney', 'midnight', 'please',
-                        'brandy', 'chicago', 'badboy',
-                        'iwantu', 'slayer', 'rangers',
-                        'charles', 'angel'
-                    ],
-                    ['flower', 'bigdaddy', 'rabbit', 'wizard']
-                ]
+            const passwordChunks = task.task.passwordsChunks;
 
             console.log("Actual Hash:", actualHash);
             console.log("Detected Algorithm:", detectedAlgorithm);
@@ -256,11 +134,7 @@
 
             for (const chunk of passwordChunks) {
                 try {
-                    const chunkResults = await processPasswordChunk(
-                        actualHash,
-                        detectedAlgorithm,
-                        chunk
-                    );
+                    const chunkResults = await processPasswordChunk(actualHash, detectedAlgorithm, chunk);
 
                     if (chunkResults) {
                         validResults.push(chunkResults.crackedPassword);
@@ -272,14 +146,13 @@
 
             const crackedPassword = validResults[0];
 
-
             if (crackedPassword) {
                 console.log("Password cracked:", crackedPassword);
 
                 // Submit the cracked password after a brief delay (1 second)
                 setTimeout(async () => {
                     try {
-                        const response = await fetch("http://192.168.43.108:5001/submit-results", {
+                        const response = await fetch("http://192.168.217.176:5001/submit-results", {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",
@@ -304,7 +177,6 @@
                 console.log("Password not cracked yet. Continue checking...");
             }
         }
-
         async function requestAndProcessTask() {
             try {
                 const task = await requestTask();
